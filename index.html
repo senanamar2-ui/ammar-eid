@@ -5,8 +5,7 @@
 <title>بطاقات تهنئة العيد - عمار سنان</title>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght=700&display=swap');
 body {
     margin: 0;
     background: radial-gradient(circle at top, #1a1a2e, #0f0f1a);
@@ -16,7 +15,7 @@ body {
     overflow-x: hidden;
 }
 
-/* حزام التهنئة المتحرك */
+/* حزام التهنئة المتحرك الخاص بعمار */
 .ticker {
     background: linear-gradient(90deg, #ffd700, #ff8c00);
     color: #000;
@@ -32,8 +31,295 @@ body {
 .ticker span {
     display: inline-block;
     padding-left: 100%;
-    animation: marquee 15s linear infinite;
+    animation: marquee 12s linear infinite;
 }
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* تأثير الألعاب النارية في الخلفية */
+#fireworks-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+h1 {
+    margin-top: 30px;
+    font-size: 42px;
+    background: linear-gradient(90deg, #ffd700, #ff8c00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    z-index: 2;
+}
+.container {
+    margin: 30px auto;
+    max-width: 900px;
+    position: relative;
+    z-index: 5;
+}
+input, button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    margin: 10px;
+    font-family: 'Cairo', sans-serif;
+}
+input[type="text"] {
+    width: 350px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 2px solid gold;
+}
+input[type="file"] {
+    display: none;
+}
+button {
+    background: linear-gradient(90deg, #ffd700, #ff8c00);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px gold;
+}
+.audio-btn {
+    background: linear-gradient(90deg, #8e2de2, #4a00e0);
+    color: #fff;
+    width: 220px;
+}
+.upload-btn {
+    background: linear-gradient(90deg, #00c9ff, #92fe9d);
+    color: #000;
+}
+.card {
+    position: relative;
+    margin: 30px auto;
+    width: 600px;
+    height: 350px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255,215,0,0.4);
+    display: none;
+}
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.card-text {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    font-size: 28px;
+    color: #fff;
+    text-shadow: 2px 2px 10px #000;
+    animation: slideUp 1.5s ease;
+}
+@keyframes slideUp {
+    from {opacity: 0; transform: translateY(50px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+.audio-box {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+.audio-box h3 {
+    margin: 0 0 15px 0;
+    color: #ffd700;
+}
+.image-presets {
+    margin-top: 15px;
+}
+.image-presets button {
+    padding: 8px 15px;
+    font-size: 14px;
+    margin: 5px;
+}
+</style>
+</head>
+<body>
+
+<canvas id="fireworks-canvas"></canvas>
+
+<div class="ticker">
+    <span>✨ بمناسبة عيد الأضحى المبارك يهنئكم عمار سنان ✨ كل عام وأنتم بخير ✨ عساكم من عواده ✨</span>
+</div>
+
+<h1>صانع تهنئة العيد</h1>
+<div class="container">
+    <div class="audio-box">
+        <h3>🎵 اختر النغمة:</h3>
+        <button class="audio-btn" onclick="playAudio('audio1')">🔊 لبيك اللهم لبيك</button>
+        <button class="audio-btn" onclick="playAudio('audio2')">🔊 من العايدين</button>
+        <br>
+        <button class="audio-btn" onclick="stopAudio()">⏹️ إيقاف الصوت</button>
+    </div>
+
+    <audio id="audio1" src="https://drive.google.com/uc?export=download&id=1zvRbgCqq8o1iInkLXkpp30DFlC6QVRGp" preload="none"></audio>
+    <audio id="audio2" src="https://drive.google.com/uc?export=download&id=1T3B-8BNhYxzyT7frR1jkP9HDUmQg7HmR" preload="none"></audio>
+
+    <input type="text" id="name" placeholder="اكتب اسمك هنا" value="عمار سنان">
+    <br>
+
+    <div>
+        <p>🖼️ الصورة:</p>
+        <input type="text" id="imgUrl" placeholder="رابط الصورة" value="https://drive.google.com/uc?export=download&id=1tbUlTdHj4rY-QpPHdH4XTD0UimWEJdhw">
+        <br>
+        <label for="fileUpload" class="upload-btn">📱 اختر من جوالك</label>
+        <input type="file" id="fileUpload" accept="image/*">
+
+        <div class="image-presets">
+            <p style="color:#ffd700; margin:10px 0 5px;">أو اختر صورة جاهزة:</p>
+            <button onclick="setImage(0)">صورة 1</button>
+            <button onclick="setImage(1)">صورة 2</button>
+            <button onclick="setImage(2)">صورة 3</button>
+            <button onclick="setImage(3)">صورة 4</button>
+            <button onclick="setImage(4)">صورة 5</button>
+        </div>
+    </div>
+
+    <button onclick="generateCard()">اصنع بطاقتي</button>
+    <button onclick="downloadImage()">تحميل الصورة</button>
+
+    <div class="card" id="card">
+        <img id="cardImg" src="" crossorigin="anonymous">
+        <div class="card-text" id="cardText"></div>
+    </div>
+</div>
+
+<script>
+const messages = [
+    "كل عام وأنت بخير {name}! عيدك مبارك",
+    "{name}، تقبل الله منا ومنكم صالح الأعمال",
+    "عيد سعيد لك {name}، ينعاد عليك بالصحة والسعادة"
+];
+
+const presetImages = [
+    "https://drive.google.com/uc?export=download&id=1tbUlTdHj4rY-QpPHdH4XTD0UimWEJdhw",
+    "https://drive.google.com/uc?export=download&id=12yiNInJueiOFKznOBGJdzW5peyMC0-hq",
+    "https://drive.google.com/uc?export=download&id=1-EBILs3EqaSJrfGVsQiSfeDkU_8_d4Dz",
+    "https://drive.google.com/uc?export=download&id=1gtP6ojZ3JC5pD-eNwwztDu0g64142bIb",
+    "https://drive.google.com/uc?export=download&id=1YiJt3Yoqp6TSvlwTBd_oCTY4_2RCcHUB"
+];
+
+function setImage(index) {
+    document.getElementById("imgUrl").value = presetImages[index];
+}
+
+function playAudio(id) {
+    stopAudio();
+    document.getElementById(id).play().catch(e => {
+        alert('اضغط على الصفحة أول ثم جرب التشغيل');
+    });
+}
+
+function stopAudio() {
+    document.getElementById('audio1').pause();
+    document.getElementById('audio1').currentTime = 0;
+    document.getElementById('audio2').pause();
+    document.getElementById('audio2').currentTime = 0;
+}
+
+document.getElementById('fileUpload').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if(file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            document.getElementById("imgUrl").value = event.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+function generateCard() {
+    let name = document.getElementById("name").value || "عمار سنان";
+    let imgUrl = document.getElementById("imgUrl").value;
+    if(!imgUrl) {
+        alert("اختر صورة");
+        return;
+    }
+    let msg = messages[Math.floor(Math.random() * messages.length)].replace("{name}", name);
+    document.getElementById("cardImg").src = imgUrl;
+    document.getElementById("cardText").innerText = msg;
+    document.getElementById("card").style.display = "block";
+}
+
+function downloadImage() {
+    const card = document.getElementById("card");
+    if(card.style.display === "none") {
+        alert("اصنع البطاقة أولاً");
+        return;
+    }
+    html2canvas(card, {useCORS: true, scale: 2}).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'eid-card-ammar.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+}
+
+// تشغيل محاكي الألعاب النارية الفعلي
+const canvas = document.getElementById('fireworks-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+let particles = [];
+class Particle {
+    constructor(x, y, color) {
+        this.x = x; this.y = y; this.color = color;
+        this.velocity = { x: (Math.random() - 0.5) * 8, y: (Math.random() - 0.5) * 8 };
+        this.alpha = 1;
+    }
+    draw() {
+        ctx.save(); ctx.globalAlpha = this.alpha; ctx.beginPath();
+        ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = this.color; ctx.fill(); ctx.restore();
+    }
+    update() {
+        this.x += this.velocity.x; this.y += this.velocity.y;
+        this.velocity.y += 0.04; this.alpha -= 0.012;
+    }
+}
+
+function createFirework() {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * (canvas.height * 0.6);
+    const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+    for (let i = 0; i < 40; i++) particles.push(new Particle(x, y, color));
+}
+
+function animate() {
+    ctx.fillStyle = 'rgba(15, 15, 26, 0.2)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, i) => {
+        if (p.alpha <= 0) particles.splice(i, 1);
+        else { p.update(); p.draw(); }
+    });
+    if (Math.random() < 0.04) createFirework();
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>
 @keyframes marquee {
     0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
